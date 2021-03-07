@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using TicTacToe.Services;
+using TicTacToe.Extensions;
 
 namespace TicTacToe
 {
@@ -33,12 +34,9 @@ namespace TicTacToe
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            /*app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });*/
-
             app.UseStaticFiles();
+
+            app.UseCommunicationMiddleware();
 
             app.UseMvc(routes =>
             {
