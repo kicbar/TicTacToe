@@ -22,15 +22,25 @@ namespace TicTacToe.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EmailConfirmation(string email)
+        {
+            ViewBag.Email = email;
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index(UserModel userModel)
         {
             if (ModelState.IsValid)
             {
                 await _userService.RegisterUser(userModel);
-                return Content($"User {userModel.FirstName} {userModel.LastName} correctly registered.");
+                return RedirectToAction(nameof(EmailConfirmation), new {userModel.Email});
             }
-            return View(userModel);
+            else
+            {
+                return View(userModel);
+            }
         }
     }
 }
