@@ -30,9 +30,7 @@ namespace TicTacToe.Controllers
                 return RedirectToAction("Index", "GameInvitation", new { email = email });
             
             ViewBag.Email = email;
-            user.IsEmailConfirmed = true;
-            user.EmailConfirmationDate = DateTime.Now;
-            await _userService.UpdateUser(user);
+
             return View();
         }
 

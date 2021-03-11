@@ -18,9 +18,38 @@ namespace TicTacToe.Middlewares
             _userService = userService;
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext context)
         {
-            await _next.Invoke(httpContext);
+            if (context.Request.Path.Equals("/CheckEmailConfirmationStatus"))
+            {
+                await ProcessEmailConfirmation(context);
+            }
+            else
+            {
+                await _next?.Invoke(context);
+            }
+        }
+
+        private async Task ProcessEmailConfirmation(HttpContext context)
+        {
+            var email = context.Request.Query["email"];
+            var user = await _userService.GetUserByEmail(email);
+
+            if (string.IsNullOrEmpty(email))
+            {
+                await context.Response.WriteAsync("Nieprawidłowe żądanie: Wymagany jest adres e-mail");
+            }
+            else if ((await _userService.GetUserByEmail(email)).IsEmailConfirmed)
+            {
+                await context.Response.WriteAsync("OK");
+            }
+            else
+            {
+                await context.Response.WriteAsync("Oczekiwanie na potwierdzenie adresu e-mail");
+                user.IsEmailConfirmed = true;
+                user.EmailConfirmationDate = DateTime.Now;
+                _userService.UpdateUser(user).Wait();
+            }
         }
     }
 }
