@@ -54,6 +54,7 @@ namespace TicTacToe
             var newUserRoutes = routeBuilder.Build();
             app.UseRouter(newUserRoutes);
 
+            app.UseWebSockets();
             app.UseCommunicationMiddleware();
 
             app.UseMvc(routes =>
