@@ -28,8 +28,9 @@ namespace TicTacToe
                 options.ResourcesPath = "Localization");
 
             services.AddMvc().AddViewLocalization(
-                LanguageViewLocationExpanderFormat.Suffix,
-                options => options.ResourcesPath = "Localization");
+                LanguageViewLocationExpanderFormat.Suffix, options => 
+                options.ResourcesPath = "Localization")
+                .AddDataAnnotationsLocalization();
             services.AddSingleton<IUserService, UserService>();
             services.AddRouting();
 
