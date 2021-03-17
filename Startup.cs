@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using TicTacToe.Services;
 using TicTacToe.Extensions;
-using Microsoft.AspNetCore.Routing;
 using TicTacToe.Models;
-using System.Globalization;
+
 
 namespace TicTacToe
 {
@@ -25,7 +27,9 @@ namespace TicTacToe
             services.AddLocalization(options =>
                 options.ResourcesPath = "Localization");
 
-            services.AddMvc();
+            services.AddMvc().AddViewLocalization(
+                LanguageViewLocationExpanderFormat.Suffix,
+                options => options.ResourcesPath = "Localization");
             services.AddSingleton<IUserService, UserService>();
             services.AddRouting();
 
