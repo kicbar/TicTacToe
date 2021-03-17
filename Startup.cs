@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
@@ -11,6 +12,7 @@ using TicTacToe.Services;
 using TicTacToe.Extensions;
 using Microsoft.AspNetCore.Routing;
 using TicTacToe.Models;
+using System.Globalization;
 
 namespace TicTacToe
 {
@@ -20,6 +22,9 @@ namespace TicTacToe
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(options =>
+                options.ResourcesPath = "Localization");
+
             services.AddMvc();
             services.AddSingleton<IUserService, UserService>();
             services.AddRouting();
@@ -62,6 +67,19 @@ namespace TicTacToe
 
             app.UseWebSockets();
             app.UseCommunicationMiddleware();
+
+            var supportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("pl-PL"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            localizationOptions.RequestCultureProviders.Clear();
+            localizationOptions.RequestCultureProviders.Add(new CultureProviderResolverService());
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseMvc(routes =>
             {
