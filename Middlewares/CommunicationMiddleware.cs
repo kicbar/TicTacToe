@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TicTacToe.Models;
 using TicTacToe.Services;
+using TicTacToe.Services.Interfaces;
 
 namespace TicTacToe.Middlewares
 {
