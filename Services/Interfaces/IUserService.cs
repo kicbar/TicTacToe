@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TicTacToe.Models;
 
-namespace TicTacToe.Services
+namespace TicTacToe.Services.Interfaces
 {
     public interface IUserService
     {
