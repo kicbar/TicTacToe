@@ -22,4 +22,8 @@
 	<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TicTacToe.Logging\TicTacToe.Logging.csproj" />
+  </ItemGroup>
+
 </Project>
