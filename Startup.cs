@@ -32,6 +32,7 @@ namespace TicTacToe
                 options.ResourcesPath = "Localization")
                 .AddDataAnnotationsLocalization();
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddRouting();
 
             services.AddSession(o => 
